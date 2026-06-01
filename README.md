@@ -26,6 +26,10 @@ This project demonstrates:
 - automated tests and GitHub Actions CI
 - clean project structure for further LLM/RAG integration
 
+## Why This Project Matters
+
+Support teams often receive repetitive requests that need initial classification, prioritization, and routing before a human operator can respond. This project shows how a Telegram-based support intake can be structured as an AI-ready workflow with ticket storage, admin operations, triage trace, and a clear extension path toward LLM/RAG-based automation.
+
 ## What It Does
 
 MA_01_MiniCRM turns a Telegram bot into a small support desk. A user sends a normal message, the system creates a ticket, runs rule-based multi-agent triage, suggests a first reply, stores the ticket in SQLite, and lets an admin manage the ticket from Telegram commands.
@@ -192,11 +196,13 @@ Trace: category-agent -> login; priority-agent -> medium; sentiment-agent -> neg
 
 - Add OpenAI / Anthropic provider integration
 - Add RAG over support knowledge base
+- Add PostgreSQL support for production deployment
 - Add operator web dashboard
 - Add role-based admin permissions
 - Add analytics for ticket categories and response time
+- Add structured logs and monitoring
 - Add message history and conversation context
-- Add escalation flow from AI triage to human operator
+- Add escalation flow from automated triage to human operator
 
 ## Security Notes
 

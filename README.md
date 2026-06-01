@@ -4,17 +4,17 @@
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue)
 ![Docker](https://img.shields.io/badge/docker-ready-blue)
 
-LLM-ready Telegram support desk with a rule-based multi-agent triage pipeline, SQLite storage, admin commands, Docker setup, and tests.
+Telegram support desk bot with rule-based multi-agent triage, SQLite storage, admin commands, Docker setup, and tests.
 
 ## Positioning
 
-MA_01_MiniCRM is not presented as a production LLM product. The current implementation uses a deterministic, rule-based multi-agent pipeline so the project can run locally without paid AI APIs and can be tested reliably.
+MA_01_MiniCRM is not a production LLM product. The current implementation uses a deterministic, rule-based multi-agent pipeline, so it can run locally without paid AI APIs and can be tested reliably.
 
-The project demonstrates the architecture of an AI-ready support workflow: task decomposition, ticket lifecycle, routing, persistence, Telegram admin operations, Dockerized deployment, and a clear path for future OpenAI, Anthropic, or RAG integration.
+The code is organized around an AI-ready support workflow: task decomposition, ticket lifecycle, routing, persistence, Telegram admin operations, Dockerized deployment, and extension points for future OpenAI, Anthropic, or RAG integration.
 
-## Portfolio Value
+## Project Scope
 
-This project demonstrates:
+This repository includes:
 
 - end-to-end Telegram bot development
 - multi-agent task decomposition

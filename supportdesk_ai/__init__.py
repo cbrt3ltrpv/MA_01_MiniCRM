@@ -1,4 +1,4 @@
-"""SupportDesk AI Bot core package."""
+"""SupportDesk bot core package."""
 
 from supportdesk_ai.service import SupportService
 

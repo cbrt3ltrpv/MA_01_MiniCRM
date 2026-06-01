@@ -5,7 +5,7 @@ description = "LLM-ready Telegram support desk with rule-based multi-agent triag
 readme = "README.md"
 requires-python = ">=3.9"
 authors = [
-  { name = "Portfolio Project" }
+  { name = "cbrt3ltrpv" }
 ]
 dependencies = []
 

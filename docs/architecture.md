@@ -1,6 +1,6 @@
 # Architecture
 
-MA_01_MiniCRM is an LLM-ready Telegram support desk. The current implementation uses deterministic rule-based agents, which makes the workflow easy to run locally, inspect, and test. The same module boundaries can later be connected to LLM providers or a RAG knowledge base.
+MA_01_MiniCRM is a Telegram support desk bot with an LLM-ready architecture. The current implementation uses deterministic rule-based agents, which makes the workflow easy to run locally, inspect, and test. The same module boundaries can later be connected to LLM providers or a RAG knowledge base.
 
 ## Request Flow
 

@@ -111,7 +111,11 @@ async def _run_bot() -> None:
             return
 
         snapshot = service.get_ticket_snapshot(ticket_id)
-        ticket = service.reply_to_ticket(ticket_id, message.from_user.id, body)
+        try:
+            ticket = service.reply_to_ticket(ticket_id, message.from_user.id, body)
+        except ValueError as exc:
+            await message.answer(str(exc))
+            return
         if ticket is None or snapshot is None:
             await message.answer("Ticket not found.")
             return

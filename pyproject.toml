@@ -1,0 +1,25 @@
+[project]
+name = "supportdesk-ai-bot"
+version = "0.1.0"
+description = "Telegram-first AI-assisted support desk for small teams."
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+  { name = "Portfolio Project" }
+]
+dependencies = []
+
+[project.optional-dependencies]
+telegram = [
+  "aiogram>=3.7,<4",
+  "python-dotenv>=1.0,<2"
+]
+
+[project.scripts]
+supportdesk-demo = "supportdesk_ai.demo:main"
+supportdesk-bot = "supportdesk_ai.telegram_bot:main"
+supportdesk-check-bot = "supportdesk_ai.check_bot:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

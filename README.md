@@ -132,19 +132,19 @@ Trace: category-agent -> login; priority-agent -> medium; sentiment-agent -> neg
 
 ### Ticket Created
 
-![Ticket created](screenshots/01-ticket-created.png)
+![Ticket created](screenshots/01-ticket-created.jpg)
 
 ### Ticket List
 
-![Ticket list](screenshots/02-ticket-list.png)
+![Ticket list](screenshots/02-ticket-list.jpg)
 
 ### Admin Reply
 
-![Admin reply](screenshots/03-admin-reply.png)
+![Admin reply](screenshots/03-admin-reply.jpg)
 
 ### Ticket Resolved
 
-![Ticket resolved](screenshots/04-ticket-resolved.png)
+![Ticket resolved](screenshots/04-ticket-resolved.jpg)
 
 ## Tech Stack
 

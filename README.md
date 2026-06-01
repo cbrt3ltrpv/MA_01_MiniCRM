@@ -1,14 +1,60 @@
 # MA_01_MiniCRM
 
-Multi-agent Telegram support desk bot with AI triage, SQLite storage, admin commands, Docker, and tests.
+[![CI](https://github.com/cbrt3ltrpv/MA_01_MiniCRM/actions/workflows/ci.yml/badge.svg)](https://github.com/cbrt3ltrpv/MA_01_MiniCRM/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/python-3.9%2B-blue)
+![Docker](https://img.shields.io/badge/docker-ready-blue)
+
+LLM-ready Telegram support desk with a rule-based multi-agent triage pipeline, SQLite storage, admin commands, Docker setup, and tests.
+
+## Positioning
+
+MA_01_MiniCRM is not presented as a production LLM product. The current implementation uses a deterministic, rule-based multi-agent pipeline so the project can run locally without paid AI APIs and can be tested reliably.
+
+The project demonstrates the architecture of an AI-ready support workflow: task decomposition, ticket lifecycle, routing, persistence, Telegram admin operations, Dockerized deployment, and a clear path for future OpenAI, Anthropic, or RAG integration.
+
+## Portfolio Value
+
+This project demonstrates:
+
+- end-to-end Telegram bot development
+- multi-agent task decomposition
+- support ticket lifecycle design
+- rule-based AI-ready triage logic
+- SQLite persistence layer
+- admin command interface
+- Dockerized local deployment
+- automated tests and GitHub Actions CI
+- clean project structure for further LLM/RAG integration
 
 ## What It Does
 
-MA_01_MiniCRM turns a Telegram bot into a small support desk. A user sends a normal message, the system creates a ticket, runs multi-agent triage, suggests a first reply, and lets an admin manage the ticket from Telegram commands.
+MA_01_MiniCRM turns a Telegram bot into a small support desk. A user sends a normal message, the system creates a ticket, runs rule-based multi-agent triage, suggests a first reply, stores the ticket in SQLite, and lets an admin manage the ticket from Telegram commands.
+
+## Architecture
+
+```text
+User message
+    -> Telegram Bot
+    -> Ticket Service
+    -> Triage Pipeline
+    -> SQLite Storage
+    -> Admin Commands
+```
+
+Main components:
+
+- Telegram interface - receives user requests and admin commands
+- Ticket service - creates and updates support tickets
+- Triage pipeline - classifies requests, assigns priority, detects sentiment, adds tags, and drafts replies
+- Storage layer - stores tickets and events in SQLite
+- Admin interface - allows support/admin users to inspect, assign, reply to, and resolve tickets
+- Tests/CI - validates core ticket lifecycle and triage behavior automatically
+
+Detailed architecture notes: [docs/architecture.md](docs/architecture.md)
 
 ## Multi-Agent Flow
 
-The project uses a deterministic multi-agent pipeline, so it works without paid AI APIs and is easy to test.
+The project uses a deterministic multi-agent pipeline. Each agent owns one part of the support triage workflow:
 
 - `CategoryAgent` detects the support area: billing, login, bug, delivery, feature request, or general.
 - `PriorityAgent` decides ticket urgency: low, medium, high, or urgent.
@@ -23,53 +69,29 @@ The final ticket timeline stores the agent trace, so `/ticket <id>` shows how th
 
 - Telegram support intake for customer messages
 - Admin commands for listing, viewing, assigning, replying, and resolving tickets
-- Multi-agent triage with decision trace
+- Rule-based multi-agent triage with decision trace
 - SQLite persistence
 - CLI demo without Telegram credentials
 - Docker and Docker Compose setup
 - GitHub Actions CI
 - Unit tests for triage and ticket lifecycle
 
-## Architecture
+## Quick Start
 
-```text
-Telegram User/Admin
-        |
-        v
-supportdesk_ai.telegram_bot
-        |
-        v
-SupportService
-        |
-        +--> TriageEngine
-        |       +--> CategoryAgent
-        |       +--> PriorityAgent
-        |       +--> SentimentAgent
-        |       +--> TaggingAgent
-        |       +--> ReplyDraftAgent
-        |       +--> SupervisorAgent
-        |
-        +--> SQLiteTicketRepository
-                |
-                v
-             SQLite DB
-```
-
-## Quick Start Without Telegram
+Clone the repository:
 
 ```bash
-python3 -m supportdesk_ai.demo
+git clone https://github.com/cbrt3ltrpv/MA_01_MiniCRM.git
+cd MA_01_MiniCRM
 ```
 
-Run tests:
+Create local configuration:
 
 ```bash
-python3 -m unittest discover -s tests
+cp .env.example .env
 ```
 
-## Run Telegram Bot Locally
-
-Create a local `.env` file. Do not commit it.
+Edit `.env` and set your Telegram bot token and admin IDs:
 
 ```env
 TELEGRAM_BOT_TOKEN=your_bot_token
@@ -83,19 +105,33 @@ Install dependencies:
 python3 -m pip install -e ".[telegram]"
 ```
 
-Check the token:
+Run tests:
+
+```bash
+python3 -m unittest discover -s tests
+```
+
+Run the CLI demo without Telegram:
+
+```bash
+python3 -m supportdesk_ai.demo
+```
+
+Check Telegram bot credentials:
 
 ```bash
 python3 -m supportdesk_ai.check_bot
 ```
 
-Run the bot:
+Run the Telegram bot:
 
 ```bash
 python3 -m supportdesk_ai.telegram_bot
 ```
 
 ## Docker
+
+Run with Docker Compose:
 
 ```bash
 docker compose up --build
@@ -121,14 +157,13 @@ Admin commands:
 /resolve 1
 ```
 
-## Example Ticket Trace
+## Screenshots / Diagrams
 
-```text
-Multi-agent triage: category=login, priority=medium, sentiment=negative, confidence=0.72.
-Trace: category-agent -> login; priority-agent -> medium; sentiment-agent -> negative; tagging-agent -> login, medium, password; reply-draft-agent -> drafted_reply; supervisor-agent -> overall_confidence=0.72
-```
-
-## Screenshots
+- Architecture diagram: [docs/architecture.md](docs/architecture.md)
+- Telegram ticket creation flow
+- Admin command example
+- Ticket resolution flow
+- Test/CI status badge
 
 ### Ticket Created
 
@@ -146,15 +181,34 @@ Trace: category-agent -> login; priority-agent -> medium; sentiment-agent -> neg
 
 ![Ticket resolved](screenshots/04-ticket-resolved.png)
 
+## Example Ticket Trace
+
+```text
+Multi-agent triage: category=login, priority=medium, sentiment=negative, confidence=0.72.
+Trace: category-agent -> login; priority-agent -> medium; sentiment-agent -> negative; tagging-agent -> login, medium, password; reply-draft-agent -> drafted_reply; supervisor-agent -> overall_confidence=0.72
+```
+
+## Future Improvements
+
+- Add OpenAI / Anthropic provider integration
+- Add RAG over support knowledge base
+- Add operator web dashboard
+- Add role-based admin permissions
+- Add analytics for ticket categories and response time
+- Add message history and conversation context
+- Add escalation flow from AI triage to human operator
+
+## Security Notes
+
+Do not commit `.env`, Telegram tokens, API keys, webhook URLs, local databases, or real user data. Use `.env.example` for placeholder configuration only.
+
+The repository is intended to contain only safe sample configuration, source code, tests, Docker files, docs, and screenshots.
+
 ## Tech Stack
 
 - Python 3.9+
 - aiogram 3
 - SQLite
-- Docker
+- Docker / Docker Compose
 - GitHub Actions
 - unittest
-
-## Security Notes
-
-Do not commit `.env`, Telegram tokens, local databases, or real user data. Use `.env.example` for configuration examples.

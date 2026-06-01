@@ -71,6 +71,15 @@ class SupportServiceTest(unittest.TestCase):
         snapshot = self.service.get_ticket_snapshot(ticket.id)
         self.assertTrue(any(event.actor == "admin:7" for event in snapshot.events))
 
+    def test_cannot_reply_to_resolved_ticket(self):
+        ticket = self.service.create_ticket(
+            CreateTicketInput(user_id=42, username="alice", message="Payment failed.")
+        )
+        self.service.resolve_ticket(ticket.id, admin_id=7)
+
+        with self.assertRaises(ValueError):
+            self.service.reply_to_ticket(ticket.id, admin_id=7, message="Late reply")
+
     def test_user_cannot_close_another_users_ticket(self):
         ticket = self.service.create_ticket(
             CreateTicketInput(user_id=42, username="alice", message="Bug report")

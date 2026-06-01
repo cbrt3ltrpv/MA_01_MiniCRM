@@ -75,6 +75,8 @@ class SupportService:
         ticket = self.repository.get_ticket(ticket_id)
         if ticket is None:
             return None
+        if ticket.status in {TicketStatus.RESOLVED, TicketStatus.CLOSED}:
+            raise ValueError("cannot reply to resolved or closed ticket")
         self.repository.add_event(ticket_id, f"admin:{admin_id}", clean_message)
         return self.repository.update_status(ticket_id, TicketStatus.WAITING)
 

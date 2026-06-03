@@ -1,6 +1,8 @@
 # Architecture
 
-MA_01_MiniCRM is a Telegram support desk bot with an LLM-ready architecture. The current implementation uses deterministic rule-based agents, which makes the workflow easy to run locally, inspect, and test. The same module boundaries can later be connected to LLM providers or a RAG knowledge base.
+MA_01_MiniCRM is a Telegram support desk bot with an LLM-ready architecture.
+The current implementation uses deterministic rule-based agents, which makes the workflow easy to run locally, inspect, and test.
+The same module boundaries can later be connected to LLM providers or a RAG knowledge base.
 
 ## Request Flow
 
@@ -37,7 +39,7 @@ flowchart TD
 | `PriorityAgent` | Decide urgency | Keyword and category rules |
 | `SentimentAgent` | Estimate customer tone | Positive/negative term counts |
 | `TaggingAgent` | Produce searchable tags | Category, priority, matched keywords |
-| `ReplyDraftAgent` | Suggest first reply | Template selection |
+| `ReplyDraftAgent` | Suggest first reply | Rule-based draft selection |
 | `SupervisorAgent` | Summarize confidence | Aggregated decision scores |
 
 ## Ticket Lifecycle

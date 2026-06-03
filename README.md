@@ -38,13 +38,21 @@ supervisor confidence. This keeps the workflow inspectable, reproducible, and ea
 
 ## Preview
 
-| Ticket created | Ticket list |
-| --- | --- |
-| ![Ticket created](screenshots/01-ticket-created.png) | ![Ticket list](screenshots/02-ticket-list.png) |
+### Ticket Created
 
-| Admin reply | Ticket resolved |
-| --- | --- |
-| ![Admin reply](screenshots/03-admin-reply.png) | ![Ticket resolved](screenshots/04-ticket-resolved.png) |
+![Ticket created](screenshots/01-ticket-created.png)
+
+### Ticket List
+
+![Ticket list](screenshots/02-ticket-list.png)
+
+### Admin Reply
+
+![Admin reply](screenshots/03-admin-reply.png)
+
+### Ticket Resolved
+
+![Ticket resolved](screenshots/04-ticket-resolved.png)
 
 ## What It Does
 

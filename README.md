@@ -6,7 +6,35 @@
 
 MA_01_MiniCRM is a Telegram support desk bot that turns incoming chat messages into tracked support tickets with deterministic multi-agent triage.
 
-The project is intentionally LLM-ready but does not require paid model APIs today. Its current pipeline uses rule-based agents for category detection, priority scoring, sentiment, tags, reply drafting, and supervisor confidence, which keeps the workflow inspectable, reproducible, and easy to test locally.
+The project is intentionally LLM-ready but does not require paid model APIs today. Its current pipeline
+uses rule-based agents for category detection, priority scoring, sentiment, tags, reply drafting, and
+supervisor confidence. This keeps the workflow inspectable, reproducible, and easy to test locally.
+
+## Repository Snapshot
+
+| Area | Status |
+| --- | --- |
+| Runtime | Telegram long-polling bot with aiogram 3 |
+| Triage | Deterministic rule-based multi-agent pipeline |
+| Storage | Local SQLite ticket and event repository |
+| Interfaces | Telegram commands and local CLI demo |
+| Delivery | Editable Python package, Dockerfile, Docker Compose |
+| Quality gate | unittest suite and GitHub Actions CI |
+
+## Contents
+
+- [Preview](#preview)
+- [What It Does](#what-it-does)
+- [Workflow](#workflow)
+- [Agents](#agents)
+- [Quick Start](#quick-start)
+- [Configuration](#configuration)
+- [Running Telegram](#running-telegram)
+- [Docker Runtime](#docker-runtime)
+- [Development](#development)
+- [Project Structure](#project-structure)
+- [Extension Points](#extension-points)
+- [Limitations](#limitations)
 
 ## Preview
 
@@ -25,6 +53,7 @@ The project is intentionally LLM-ready but does not require paid model APIs toda
 - Runs a deterministic multi-agent triage pipeline and stores the decision trace in the ticket timeline.
 - Gives admins Telegram commands to list, inspect, assign, reply to, and resolve tickets.
 - Includes a CLI demo, Docker Compose runtime, unit tests, and GitHub Actions CI.
+- Keeps the current implementation local-first: no hosted service, external model account, or paid API key is required to run the demo and tests.
 
 ## Workflow
 
@@ -66,6 +95,13 @@ All agents are implemented in [supportdesk_ai/agents.py](supportdesk_ai/agents.p
 | `supportdesk_ai.formatting` | Telegram response formatting | Deterministic presentation layer |
 | `supportdesk_ai.demo` | Local non-Telegram demo | Creates example tickets in a temp SQLite database |
 | `tests/` | Unit tests for triage and lifecycle behavior | Run in local development and CI |
+
+## Use Cases
+
+- Demonstrating a compact CRM-style support workflow inside Telegram.
+- Testing deterministic agent orchestration before introducing LLM providers.
+- Prototyping support ticket lifecycles with auditable event history.
+- Running a local support bot with simple SQLite persistence and admin commands.
 
 ## Quick Start
 
@@ -151,6 +187,8 @@ Available admin commands:
 /resolve 1
 ```
 
+The bot uses long polling. For local development, a public webhook URL is not required.
+
 ## Docker Runtime
 
 Docker Compose builds the app image, reads `.env`, and stores the SQLite database under `./data`:
@@ -165,7 +203,13 @@ The Compose file sets `SUPPORT_DB_PATH=/app/data/supportdesk.db` inside the cont
 
 ```text
 Multi-agent triage: category=billing, priority=urgent, sentiment=negative, confidence=0.82.
-Trace: category-agent -> billing; priority-agent -> urgent; sentiment-agent -> negative; tagging-agent -> billing, card, charge, contains_id, payment, urgent; reply-draft-agent -> drafted_reply; supervisor-agent -> overall_confidence=0.82
+Trace:
+category-agent -> billing
+priority-agent -> urgent
+sentiment-agent -> negative
+tagging-agent -> billing, card, charge, contains_id, payment, urgent
+reply-draft-agent -> drafted_reply
+supervisor-agent -> overall_confidence=0.82
 ```
 
 The trace is attached to the ticket event timeline, so an admin can inspect how a decision was produced instead of seeing only the final label.
@@ -182,6 +226,27 @@ The trace is attached to the ticket event timeline, so an admin can inspect how 
 | Run with Docker Compose | `docker compose up --build` |
 
 CI runs the unittest suite on Python 3.11 through `.github/workflows/ci.yml`.
+
+## Project Structure
+
+```text
+MA_01_MiniCRM/
+|-- supportdesk_ai/
+|   |-- agents.py          # deterministic specialist agents
+|   |-- triage.py          # agent orchestration
+|   |-- service.py         # ticket lifecycle service
+|   |-- repository.py      # SQLite persistence
+|   |-- telegram_bot.py    # aiogram command handlers
+|   `-- demo.py            # local CLI demo
+|-- tests/
+|   `-- test_service.py    # triage and lifecycle tests
+|-- docs/
+|   `-- architecture.md    # component and flow notes
+|-- screenshots/           # Telegram workflow screenshots
+|-- Dockerfile
+|-- docker-compose.yml
+`-- pyproject.toml
+```
 
 ## Extension Points
 
@@ -222,6 +287,14 @@ The repository is intended to contain only safe sample configuration, source cod
 - Docker and Docker Compose
 - GitHub Actions
 - unittest
+
+## GitHub Metadata
+
+Recommended repository metadata:
+
+- Description: `Telegram support desk bot with deterministic multi-agent triage, SQLite tickets, Docker runtime, and CI.`
+- Topics: `telegram-bot`, `support-desk`, `crm`, `python`, `aiogram`, `sqlite`, `docker`, `multi-agent`, `llm-ready`
+- Homepage: leave empty until a real demo, docs site, or deployment URL exists.
 
 ## License
 
